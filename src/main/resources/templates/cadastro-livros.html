@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COAU - Cadastro de Livros</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/estilo.css}">
+</head>
+<body>
+    
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <div class="navbar-brand d-flex align-items-center">
+                <h1 class="mb-0">COAU</h1>
+            </div>
+            <div class="user-info ms-auto text-end text-white">
+                <h2 id="usuario" th:text="${session.usuarioLogado ?: 'Usuário'}">Usuário</h2>
+                <p id="data" th:text="${#temporals.format(#temporals.createNow(), 'dd/MM/yyyy HH:mm')}">Data</p>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container" style="padding-top: 80px; max-width: 1100px;">
+        <div class="row mb-3 align-items-center">
+            <div class="col-md-8">
+                <h3 class="text-center text-md-start">Cadastro de Livros</h3>
+            </div>
+        </div>
+
+       
+
+        <form id="formLivro" th:action="@{/livros/cadastro}" th:object="${livro}" method="post">
+            <input type="hidden" th:field="*{idliv}" />
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <div class="mb-3 row align-items-center">
+                        <label for="nomeLivro" class="col-sm-4 col-form-label">Título:</label>
+                        <div class="col-sm-8">
+                            <input type="text" th:field="*{nomeLivro}" id="nomeLivro" placeholder="Título" class="form-control" />
+                            <div th:errors="*{nomeLivro}" class="text-danger"></div>
+                        </div>
+                    </div>
+                    <div class="mb-3 row align-items-center">
+                        <label for="autorLivro" class="col-sm-4 col-form-label">Autor:</label>
+                        <div class="col-sm-8">
+                            <input type="text" th:field="*{autorLivro}" id="autorLivro" placeholder="Autor" class="form-control" />
+                           
+                        </div>
+                    </div>
+                    <div class="mb-3 row align-items-center">
+                        <label for="assuntoLivro" class="col-sm-4 col-form-label">Assunto:</label>
+                        <div class="col-sm-8">
+                            <input type="text" th:field="*{assuntoLivro}" id="assuntoLivro" placeholder="Assunto" class="form-control" />
+                         
+                        </div>
+                    </div>
+                    <div class="mb-3 row align-items-center">
+                        <label for="editoraLivro" class="col-sm-4 col-form-label">Editora:</label>
+                        <div class="col-sm-8">
+                            <input type="text" th:field="*{editoraLivro}" id="editoraLivro" placeholder="Editora" class="form-control" />
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3 row align-items-center">
+                        <label for="ano" class="col-sm-4 col-form-label">Ano lançamento:</label>
+                        <div class="col-sm-8">
+                            <input type="number" th:field="*{ano}" id="ano" placeholder="Ano" class="form-control" />
+                            
+                        </div>
+                    </div>
+                    <div class="mb-3 row align-items-center">
+                        <label for="volume" class="col-sm-4 col-form-label">Volume:</label>
+                        <div class="col-sm-8">
+                            <input type="number" th:field="*{volume}" id="volume" placeholder="Volume" class="form-control" />
+                          
+                        </div>
+                    </div>
+                    <div class="mb-3 row align-items-center">
+                        <label for="prateleiraLivro" class="col-sm-4 col-form-label">Prateleira:</label>
+                        <div class="col-sm-8">
+                            <select th:field="*{prateleiraLivro}" id="prateleiraLivro" class="form-select">
+                                <option value= "">Selecione a prateleira</option>
+                                <option value="Warley">Warley</option>
+                                <option value="Luana">Luana</option>
+                                <option value="Juan">Juan</option>
+                                <option value="Emily">Emily</option>
+                                <option value="Outros">Outros</option>
+                            </select>
+                             <div th:errors="*{prateleiraLivro}" class="text-danger"></div>
+                        </div>
+                    </div>
+                    <div class="mb-3 row align-items-center">
+                        <label for="tipo" class="col-sm-4 col-form-label">Tipo:</label>
+                        <div class="col-sm-8">
+                            <select th:field="*{tipo}" id="tipo" class="form-select">
+                                <option value="">Selecione o tipo</option>
+                                <option value="livro">Livro</option>
+                                <option value="revista">Revista</option>
+                            </select>
+                             <div th:errors="*{tipo}" class="text-danger"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="btn-group mt-3 d-flex gap-2">
+                <button type="submit" class="btn btn-success flex-fill" 
+                        th:text="${livro.idliv != null} ? 'Salvar Alterações' : 'Adicionar Livro'">
+                    Adicionar/Salvar
+                </button>
+                <button type="button" class="btn btn-secondary flex-fill" onclick="document.getElementById('formLivro').reset();">Limpar</button>
+            </div>
+        </form>
+
+      
+        <div style="text-align:right; color: blue;">
+                <a th:href="@{/livros/telaprincipal}">Voltar ao menu Principal</a>
+            </div>
+
+        <footer class="bg-dark text-white mt-5 pt-4 pb-3">
+            <div class="row justify-content-center">
+                <div class="col-md-4 mb-4 mb-md-0 text-center">
+                    <h5 class="text-uppercase">Projeto Coau</h5>
+                    <address class="mb-0">
+                        Rua Um, 123<br>
+                        Bairro: Santa Inês<br>
+                        Cidade, Estado<br>
+                    </address>
+                </div>
+                <div class="col-md-4 mb-4 mb-md-0 text-center">
+                    <h5 class="text-uppercase">Contato</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-1">(00) 1234-5678</li>
+                        <li class="mb-1">contato@Coau.com</li>
+                    </ul>
+                </div>
+                <div class="col-md-4 text-center">
+                    <h5 class="text-uppercase mb-3">Redes Sociais</h5>
+                    <div class="rede-social">
+                        <a href="#"><img th:src="@{/imagens/facebook.png}" alt="Facebook" width="32" height="32"></a>
+                        <a href="#"><img th:src="@{/imagens/instagram.png}" alt="Instagram" width="32" height="32"></a>
+                        <a href="#"><img th:src="@{/imagens/whatsapp.png}" alt="WhatsApp" width="32" height="32"></a>
+                    </div>
+                </div>
+            </div>
+            <hr class="bg-light mt-4 mb-3">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <p class="mb-0 small">&copy; 2025 Projeto COAU. Todos os direitos reservados.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script th:src="@{/js/script.js}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+   
+</body>
+</html>
