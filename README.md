@@ -2,6 +2,7 @@
 
      Este é um projeto para desktop desenvolvido na linguagem Java , para controle de uma pequena biblioteca .
      O programa faz o CRUD para o dono ter total controle de livros adiconados e livros emprestado .
+     E modicado para MVC para utilização web.
 ## Status do Projeto
     - Em desenvolvimento
 ## Tecnologias Utilizadas
